@@ -1,0 +1,11 @@
+th,td,.center{
+    text-align: center;
+}
+
+.container{
+    padding: 20px;
+}
+
+.marginLeft{
+    margin-left: 10px;
+}
