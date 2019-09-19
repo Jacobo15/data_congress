@@ -9,3 +9,59 @@ th,td,.center{
 .marginLeft{
     margin-left: 10px;
 }
+
+.marginTop{
+    margin-top: 15px;
+}
+
+.loader {
+    border: 10px solid orange; 
+    border-top: 10px solid green; 
+    border-radius: 50%;
+    width: 80px;
+    height: 80px;
+    animation: spin 2s linear infinite;
+ }
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+#nothing{
+    color:grey;
+}
+
+#btn.collapsed:before {
+    content:"Read More";
+}
+
+#btn:before{
+    content:"Read Less";
+}
+
+.scroll tbody {
+    display: block;
+    overflow-y: auto;
+    max-height:500px;
+}
+
+.scroll thead tr {
+    display: block;
+}
+.scroll th, .scroll td {
+    width: 220px;   
+}
+
+.scrollstadistic tbody {
+    display: block;
+    overflow-y: auto;
+    max-height:539px;
+}
+
+.scrollstadistic thead tr {
+    display: block;
+}
+.scrollstadistic th, .scrollstadistic td {
+    width: 179px;   
+}

@@ -11,10 +11,10 @@
     <div class="container">
         <div class="row">
             <div class="col-md-1">
-                <img src="images/statistic-1820320__340.png" class="img-thumbnail">
+                <img src="images/pexels-photo-345092.jpeg" class="img-thumbnail">
             </div>
-            <h2 class="col-md-9"> TGIF Logo </h2>
-            <a class="col-md-2"> info@tgif.net </a>
+            <h2 class="col-md-9"></h2>
+            <a href="mailto:info@tgif.net" class="marginTop" class="col-md-2"> info@tgif.net </a>
         </div>
 
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -35,7 +35,7 @@
                             <a class="dropdown-item" href="attendance-house.html">House</a>
                             <a class="dropdown-item" href="attendance-senate.html">Senate</a>
                         </ul>
-                        <li class="nav-item dropdown">
+                    <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Party Loyalty</a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                             <a class="dropdown-item" href="loyalty-house.html">House</a>
@@ -59,6 +59,11 @@
                 <p>First convened in 1789, the composition and powers of the Senate are established in Article One of the U.S. Constitution. Each state is represented by two senators, regardless of population, who serve staggered six-year terms. The Senate has several exclusive powers not granted to the House, including consenting to treaties as a precondition to their ratification and consenting to or confirming appointments of Cabinet secretaries, federal judges, other federal executive officials, military officers, regulatory officials, ambassadors, and other federal uniformed officers, as well as trial of federal officials impeached by the House.</p>
             </div>
         </div>
+        <div class="container" id="loading">
+            <div class="d-flex justify-content-center">
+                <div class="loader"></div>
+            </div>
+        </div>
         <div class="container">
             <div class="row">
                 <h6 class="col-md-1.1">Filter Party:</h6>
@@ -69,13 +74,13 @@
 
                 </div>
                 <h6 class="col-md-1.1">Filter by State:</h6>
-                <select  id="create-option" class="marginLeft">
-                <option value="all">All</option>
+                <select id="create-option" class="marginLeft">
+                    <option value="all">All</option>
                 </select>
             </div>
 
         </div>
-        <table class="table table-striped">
+        <table class="table table-striped scroll" >
             <thead>
                 <tr>
                     <th>Senators</th>
@@ -89,6 +94,11 @@
 
             </tbody>
         </table>
+        <div id="nothing">
+            <div class="center">
+                <h5>No Members</h5>
+            </div>
+        </div>
     </div>
     <div class="container">
         <div class="center">
@@ -96,11 +106,8 @@
         </div>
     </div>
 
-    <script src="js/pro-congress-113-senate.js"></script>
-    <script src="js/senate-starter.js"></script>
+    <script src="js/congress.js"></script>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-</body>
-
-</html>
+</body></html>

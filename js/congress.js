@@ -1,118 +1,167 @@
-var data;
+var url;
 
-fetch("https://api.propublica.org/congress/v1/113/senate/members.json", {
-  method: "GET",
-  headers: {
-    "X-API-Key": "ZGBdCoe2rjT0VqtlcYLj6oTzWnhd6N6Fzx1A14rX"
-  }
-})
-  .then(function(response) {
-    
-    if (response.ok) {
-      return response.json();
-    }
-    throw new Error(response.statusText);
-  })
-  .then(function(json) {
-    data = json;
-    var members = data.results[0].members;
+if(window.location.pathname.includes("senate")){
+    url = "https://api.propublica.org/congress/v1/113/senate/members.json"
+} else if (window.location.pathname.includes("house")) {
+    url = "https://api.propublica.org/congress/v1/113/house/members.json"
+}
+    if (localStorage.getItem(url)) {
+    var members = JSON.parse(localStorage.getItem(url));
+     printTable(members);
+    dropdown(members);
+     document.getElementById("loading").style.display = "none"; 
+    document.getElementById("republican-checkbox").addEventListener("click", function () {
+            filterByParty(members);
+        });
+
+        document.getElementById("democrat-checkbox").addEventListener("click", function () {
+            filterByParty(members);
+
+        });
+
+        document.getElementById("independent-checkbox").addEventListener("click", function () {
+            filterByParty(members);
+        });
+
+        document.getElementById("create-option").addEventListener("change", function () {
+            filterByParty(members);
+        });
+}
+else{
+    callFetch(url);
+}
+
+  
+
+function callFetch(url) {
+fetch(url, {
+        method: "GET",
+        headers: {
+            "X-API-Key": "CXbw1umHPCTbBYJjWJOToNhWKGQTfTONlxNaFo7i"
+        }
+    })
+    .then(function (response) {
+
+        if (response.ok) {
+            return response.json();
+        }
+        throw new Error(response.statusText);
+    })
+    .then(function (json) {
+
+        var members = json.results[0].members;
+
+localStorage.setItem(url, JSON.stringify(members));
+        // LLAMADA DE FUNCIONES
+        printTable(members);
+        dropdown(members);
+
+        document.getElementById("loading").style.display = "none";
+
+        document.getElementById("republican-checkbox").addEventListener("click", function () {
+            filterByParty(members);
+        });
+
+        document.getElementById("democrat-checkbox").addEventListener("click", function () {
+            filterByParty(members);
+
+        });
+
+        document.getElementById("independent-checkbox").addEventListener("click", function () {
+            filterByParty(members);
+        });
+
+        document.getElementById("create-option").addEventListener("change", function () {
+            filterByParty(members);
+        });
 
 
-// LLAMADA DE FUNCIONES
-printTable(members);
-dropdown(members);
 
 
-
-document.getElementById("republican-checkbox").addEventListener("click", filterByParty);
-
-document.getElementById("democrat-checkbox").addEventListener("click", filterByParty);
-
-document.getElementById("independent-checkbox").addEventListener("click", filterByParty);
-
-document.getElementById("create-option").addEventListener("change", filterByParty);
-
+    })
+    .catch(function (error) {
+        // called when an error occurs anywhere in the chain
+        console.log("Request failed: " + error.message);
+    });
+}
 
 
 // FUNCIONES
 function printTable(array) {
     document.getElementById("senate-data").innerHTML = ""
     var content = "";
-    for (var i = 0; i < array.length; i++) {
-        if (array[i].middle_name == null) {
-            content += "<tr><td><a href=" + array[i].url + ">" + array[i].last_name + ", " + array[i].first_name + " " + "</a></td><td>" + array[i].party + "</td><td>" + array[i].state + "</td><td>" + array[i].seniority + "</td><td>" + array[i].votes_with_party_pct + "</td></tr>";
-        } else {
-            content += "<tr><td><a href=" + array[i].url + ">" + array[i].last_name + ", " + array[i].first_name + " " + array[i].middle_name + "</a></td><td>" + array[i].party + "</td><td>" + array[i].state + "</td><td>" + array[i].seniority + "</td><td>" + array[i].votes_with_party_pct + "</td></tr>";
+    if (array.length != 0) {
+        document.getElementById("nothing").style.display = "none";
+        for (var i = 0; i < array.length; i++) {
+            if (array[i].middle_name == null) {
+                content += "<tr><td><a href=" + array[i].url + ">" + array[i].last_name + ", " + array[i].first_name + " " + "</a></td><td>" + array[i].party + "</td><td>" + array[i].state + "</td><td>" + array[i].seniority + "</td><td>" + array[i].votes_with_party_pct + " %" + "</td></tr>";
+            } else {
+                content += "<tr><td><a href=" + array[i].url + ">" + array[i].last_name + ", " + array[i].first_name + " " + array[i].middle_name + "</a></td><td>" + array[i].party + "</td><td>" + array[i].state + "</td><td>" + array[i].seniority + "</td><td>" + array[i].votes_with_party_pct + " %" + "</td></tr>";
+            }
+            document.getElementById("senate-data").innerHTML = content;
         }
-        document.getElementById("senate-data").innerHTML = content;
+    } else {
+       document.getElementById("nothing").style.display = "block"; 
     }
 
 }
 
 
-function filterByParty() {
+function filterByParty(array) {
     var partycheck = document.querySelectorAll('input[name=party]:checked');
     var newParty = Array.from(partycheck);
     var newPartyCheck = newParty.map(input => input.value);
     var parties = []
     if (partycheck.length == 0) {
-        filterByState(members);
+        filterByState(array);
     } else {
-        for (var i = 0; i < members.length; i++) {
-            if (newPartyCheck.includes(members[i].party)) {
-                parties.push(members[i])
+        for (var i = 0; i < array.length; i++) {
+            if (newPartyCheck.includes(array[i].party)) {
+                parties.push(array[i])
             }
         }
-    filterByState(parties);
+        filterByState(parties);
     }
-   
+
 }
 
 
 
 function dropdown(array) {
     var states = [];
-    for(var i=0; i < members.length; i++){
-        if(!states.includes(array[i].state)){
+    for (var i = 0; i < array.length; i++) {
+        if (!states.includes(array[i].state)) {
             states.push(array[i].state)
         }
         states.sort();
-        }
-       
-     createOption(states);    
+    }
+
+    createOption(states);
 }
 
-function createOption(array){
-var dropdown = document.getElementById("create-option");
-    for(var i=0; i < array.length; i++){
+function createOption(array) {
+    var dropdown = document.getElementById("create-option");
+    for (var i = 0; i < array.length; i++) {
         var opt = document.createElement("option");
-        opt.setAttribute("value",array[i]);
+        opt.setAttribute("value", array[i]);
         opt.append(array[i]);
         dropdown.append(opt);
-    }    
+    }
 }
 
-function filterByState(array){
-    var state =[]; 
-    
-    if(document.getElementById("create-option").value == "all"){
-       printTable(array);  
-    }
-    else{
-        for(let i=0; i < array.length;i++){
-            if( document.getElementById("create-option").value == array[i].state){
+function filterByState(array) {
+    var state = [];
+
+    if (document.getElementById("create-option").value == "all") {
+        printTable(array);
+    } else {
+        for (let i = 0; i < array.length; i++) {
+            if (document.getElementById("create-option").value == array[i].state) {
                 state.push(array[i])
             }
-            
-        }
-        printTable(state);        
-    }
-        
-}
-  })
-  .catch(function(error) {
-    // called when an error occurs anywhere in the chain
-    console.log("Request failed: " + error.message);
-  });
 
-console.log(data);
+        }
+        printTable(state);
+    }
+
+}
